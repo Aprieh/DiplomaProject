@@ -3,19 +3,113 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:res="clr-namespace:DiplomaProject.Resources"
-        xmlns:local="clr-namespace:DiplomaProject"
         mc:Ignorable="d"
-         Title="О программе" Height="300" Width="400">
+        Title="О программе" Height="450" Width="600">
     <Grid>
         <RichTextBox IsReadOnly="True" Background="White" BorderThickness="0">
             <FlowDocument>
-                <Paragraph FontWeight="Bold" FontSize="14">О программе FERN</Paragraph>
-                <Paragraph>Это приложение предназначено для проектирования и оптимизации тепловых радиаторов. Вы можете создавать, сохранять и редактировать проекты, а также рассчитывать оптимальные параметры тепловых радиаторов.</Paragraph>
-                <Paragraph FontWeight="Bold">Версия:</Paragraph>
-                <Paragraph>1.0.0</Paragraph>
-                <Paragraph FontWeight="Bold">Разработано:</Paragraph>
-                <Paragraph>Студентом Инжиевским Антоном Сергеевичем, группы 4315, 2024 год</Paragraph>
+                <Paragraph FontWeight="Bold" FontSize="18" TextAlignment="Center" Margin="0,0,0,20">О программе FERN</Paragraph>
+
+                <Paragraph FontSize="14">
+                    <Run Text="Программа FERN предназначена для автоматизированного проектирования и оптимизации тепловых радиаторов. Она разработана для облегчения процесса проектирования, повышения эффективности и точности расчётов, а также для создания оптимальных конструкций радиаторов." />
+                </Paragraph>
+
+                <Paragraph FontSize="14" FontWeight="Bold" Margin="10,10,0,5">Основные возможности:</Paragraph>
+
+                <List Margin="0,0,0,10">
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Создание, сохранение и редактирование проектов тепловых радиаторов." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Расчет оптимальных параметров радиаторов для обеспечения эффективного теплоотвода, включая высоту ребер, их толщину и количество." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Визуализация радиаторов с использованием AutoCAD, что позволяет получить наглядное представление о проекте и упростить процесс его реализации." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Поддержка различных материалов, учет их теплофизических свойств, таких как теплопроводность, плотность и эмиссивность, для более точных расчетов." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Возможность задания пользовательских значений эмиссивности поверхности для моделирования радиаторов с различными покрытиями." />
+                        </Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontSize="14" FontWeight="Bold" Margin="10,10,0,5">Технические характеристики:</Paragraph>
+
+                <List Margin="0,0,0,10">
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Версия программы: 1.0.0" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Дата выпуска: 2024 год" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Разработчик: Инжиевский Антон Сергеевич, студент группы 4315." />
+                        </Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontSize="14" FontWeight="Bold" Margin="10,10,0,5">Краткое руководство пользователя:</Paragraph>
+
+                <Paragraph FontSize="14" Margin="0,0,0,10">
+                    <Run Text="Для начала работы выполните следующие шаги:" />
+                </Paragraph>
+
+                <List Margin="0,0,0,10">
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Создайте новый проект или откройте существующий, используя соответствующие пункты меню." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Введите исходные данные, включая размеры радиатора, тепловыделение и параметры окружающей среды." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Выберите материал для радиатора из предложенного списка или задайте пользовательские параметры." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Запустите расчет оптимальных параметров радиатора, чтобы получить наилучшие значения высоты, толщины ребер и их количества." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Просмотрите результаты расчета и визуализируйте конструкцию радиатора с помощью AutoCAD." />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            <Run Text="Сохраните проект для дальнейшего использования и редактирования." />
+                        </Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontSize="14" Margin="0,0,0,10">
+                    <Run Text="Для подробного руководства обратитесь к разделу 'Помощь' в меню, где вы найдете пошаговые инструкции и ответы на часто задаваемые вопросы." />
+                </Paragraph>
+
+                <Paragraph FontSize="14" TextAlignment="Center" FontWeight="Bold" Margin="20,20,0,0">
+                    <Run Text="Спасибо за использование FERN!" />
+                </Paragraph>
             </FlowDocument>
         </RichTextBox>
     </Grid>
