@@ -17,7 +17,25 @@ namespace DiplomaProject
         private HeatsinkPlotter HeatsinkPlotter { get; set; }
         public Material? SelectedMaterial { get; private set; }
         public Heatsink? SelectedHeatsink { get; set; }
-        public Project? SelectedProject { get; set; }
+        private Project? _selectedProject;
+        private Project? _currentProject;
+        public Project? SelectedProject
+        {
+            get
+            {
+                return _selectedProject;
+            }
+            set
+            {
+                _selectedProject = value;
+                if (_selectedProject != null)
+                {
+                    DisplayProjectProperties(_selectedProject);
+                    SelectedHeatsink = databaseContext.Heatsinks.Find(_selectedProject.HeatsinkID);
+                }
+            }
+        }
+
         public Fastener SelectedFastener { get; set; }
         public MainWindow()
         {
@@ -392,18 +410,9 @@ namespace DiplomaProject
         }
         private void ProjectsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ProjectsList.SelectedItem != null && ProjectsList.SelectedItem is Project selectedProject)
+            if (SelectedProject!= null) 
             {
-                SelectedProject = selectedProject;  // Используем уже проверенную и приведенную переменную
                 DisplayProjectProperties(SelectedProject);
-                SelectedHeatsink = databaseContext.Heatsinks.FirstOrDefault(h => h.HeatsinkID == SelectedProject.HeatsinkID);
-                ProjectTabInterfaceEnablement(true);
-            }
-            else
-            {
-                ProjectTabInterfaceEnablement(false);
-                SelectedHeatsink = null;
-                SelectedProject = null;
             }
         }
         private void ProjectTabInterfaceEnablement(bool mode)
@@ -435,27 +444,7 @@ namespace DiplomaProject
             ProjectDirTextBox.Text = selectedProject.CADFilePath;
             ProjectComment.Text = selectedProject.Description;
         }
-        //private void Rendering3DButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var responce = MessageBox.Show("Эта функция будет удалена в последущих доработках. Хотите продолжить?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        //        if (responce == MessageBoxResult.Yes)
-        //        {
-        //            double l = InputHelper.GetDoubleValue(InitLengthTextBox);
-        //            double d = InputHelper.GetDoubleValue(InitWidthTextBox);
-        //            double c = InputHelper.GetDoubleValue(BaseThicknesstextBox);
-        //            double h = InputHelper.GetDoubleValue(HeightResult);
-        //            double delta = InputHelper.GetDoubleValue(ThicknessResult);
-        //            int z = InputHelper.GetIntValue(CountResult);
-        //            new AutoCadRenderer3D(l, d, c, h, delta, z);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
+        
         private void Rendering2DButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -520,6 +509,8 @@ namespace DiplomaProject
             {
                 if (SelectedProject == null)
                     throw new InvalidOperationException("Проект не выбран. Выберите один из представленных проектов или создайте новый");
+
+                _currentProject = SelectedProject;
 
                 InputHelper.ClearTab(InitDataTab);
                 UserEmissivityCheckBox.IsChecked = false;
