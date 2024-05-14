@@ -1,0 +1,22 @@
+﻿<Window x:Class="DiplomaProject.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:res="clr-namespace:DiplomaProject.Resources"
+        xmlns:local="clr-namespace:DiplomaProject"
+        mc:Ignorable="d"
+         Title="О программе" Height="300" Width="400">
+    <Grid>
+        <RichTextBox IsReadOnly="True" Background="White" BorderThickness="0">
+            <FlowDocument>
+                <Paragraph FontWeight="Bold" FontSize="14">О программе FERN</Paragraph>
+                <Paragraph>Это приложение предназначено для проектирования и оптимизации тепловых радиаторов. Вы можете создавать, сохранять и редактировать проекты, а также рассчитывать оптимальные параметры тепловых радиаторов.</Paragraph>
+                <Paragraph FontWeight="Bold">Версия:</Paragraph>
+                <Paragraph>1.0.0</Paragraph>
+                <Paragraph FontWeight="Bold">Разработано:</Paragraph>
+                <Paragraph>Студентом Инжиевским Антоном Сергеевичем, группы 4315, 2024 год</Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>

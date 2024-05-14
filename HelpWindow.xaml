@@ -1,0 +1,29 @@
+﻿<Window x:Class="DiplomaProject.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:res="clr-namespace:DiplomaProject.Resources"
+        xmlns:local="clr-namespace:DiplomaProject"
+        mc:Ignorable="d"
+       Title="Помощь" Height="300" Width="400">
+    <Grid>
+        <RichTextBox IsReadOnly="True" Background="White" BorderThickness="0">
+            <FlowDocument>
+                <Paragraph FontWeight="Bold">Как использовать программу:</Paragraph>
+                <List MarkerStyle="Decimal">
+                    <ListItem>
+                        <Paragraph>Выберите проект из списка.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Введите исходные данные в соответствующих полях.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Нажмите кнопку "Расчитать" для получения результатов.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph FontStyle="Italic">Для дополнительной помощи обратитесь к разработчику.</Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+</Window>

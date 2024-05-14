@@ -1,0 +1,23 @@
+﻿<Window x:Class="DiplomaProject.Rename"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiplomaProject"
+        mc:Ignorable="d"
+        Title="{Binding WindowPurpose}" Height="178" Width="300" ResizeMode="NoResize" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBox x:Name="NameInput" Margin="10, 20" Grid.ColumnSpan="2" Height="20"/>
+        <Button x:Name="Apply" Grid.Row="1" Margin="5" Content="Применить" Width="110" HorizontalAlignment="Right" Click="Apply_Click" Height="20"/>
+        <Button x:Name="Cancel" Grid.Row="1" Grid.Column="1" Margin="5,5,10,5" Content="Отмена" Width="80" HorizontalAlignment="Right" Click="Cancel_Click" Height="20"/>
+    </Grid>
+</Window>

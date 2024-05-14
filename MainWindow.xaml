@@ -1,0 +1,533 @@
+﻿<Window x:Name="FERN" x:Class="DiplomaProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:local="clr-namespace:DiplomaProject"
+        mc:Ignorable="d"
+        Title="FERN" Height="800" Width="1036" MinHeight="700" MinWidth="800">
+
+    <DockPanel x:Name="MainDockPanel">
+        <Menu x:Name="Menu" DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Создать" Click="CreateProject_Click"/>
+                <MenuItem Header="Открыть" Click="OpenProject_Click"/>
+                <MenuItem x:Name="SaveMenuItem" Header="Сохранить" Click="SaveCurrentProject_Click"/>
+                <MenuItem Header="Выход" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Вид">
+                <MenuItem Header="Во весь экран" Click="FullScreen_Click"/>
+                <MenuItem Header="Восстановить размер" Click="RestoreSize_Click"/>
+                <MenuItem Header="Свернуть" Click="Minimize_Click"/>
+            </MenuItem>
+            <MenuItem Header="AutoCAD">
+                <MenuItem Header="Запуск AutoCAD" Click="AutoCADLaunch_Click"/>
+                <MenuItem x:Name="RenderAutoCADMenuItem"  Header="Отрисовать Чертеж" Click="Rendering2DButton_Click"/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem Header="Помощь" Click="HelpMenuItem_Click"/>
+                <MenuItem Header="О программе" Click="AboutMenuItem_Click"/>
+                <MenuItem Header="Обратная связь" Click="FeedbackMenuItem_Click"/>
+
+            </MenuItem>
+        </Menu>
+        <!--<ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Новый" />
+                <Button Content="Открыть" />
+                <Button Content="Сохранить" />
+
+                -->
+        <!--Другие элементы панели инструментов-->
+        <!--
+
+            </ToolBar>
+
+            -->
+        <!--Можно добавить дополнительные ToolBar-->
+        <!--
+
+        </ToolBarTray>-->
+        <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom">
+            <StatusBarItem x:Name ="StatusBarText" Content="Готово"/>
+        </StatusBar>
+        <!-- Grid теперь находится внутри DockPanel -->
+        <Grid x:Name="GridForPanels" >
+            <TabControl x:Name="InterfaceTabs">
+                <TabItem x:Name="ProjectInfoTab" Header="Проект">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ListView x:Name="ProjectsList" SelectionChanged="ProjectsListView_SelectionChanged" ItemsSource="{Binding Projects}">
+                            <!--">SelectedItem="{Binding SelectedProject, Mode=TwoWay}"-->
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CADFilePath, Converter={StaticResource PathValidatorConverter}}" Value="False">
+                                            <Setter Property="Background" Value="#FFFFCCCC"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Название" DisplayMemberBinding="{Binding ProjectName}" Width="100"/>
+                                    <GridViewColumn Header="Дата изменения">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding LastModifiedDate, StringFormat='dd.MM.yyyy'}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Директория" DisplayMemberBinding="{Binding CADFilePath}" Width="300"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock TextWrapping="Wrap" Text="Название проекта:" Margin="5"/>
+                            <TextBox x:Name="ProjectNameTextBox" TextWrapping="Wrap" Margin="5" IsReadOnly="True" />
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Дата создания:" Margin="5" />
+                                <TextBox x:Name="CreationDatetextBox" Margin="5" IsReadOnly="True" Grid.Column="1" BorderBrush="{x:Null}" />
+                                <TextBlock Text="Дата изменения:" Margin="5" Grid.Row="1" />
+                                <TextBox x:Name="ChangeDateTextBox" Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" BorderBrush="{x:Null}" />
+                            </Grid>
+                            <TextBlock Text="Директория проекта:" Margin="5" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBox x:Name="ProjectDirTextBox" Margin="5" IsReadOnly="True" />
+                                <Button x:Name="ProjectDirFileSearchButton" Grid.Column="1" Margin="5" Content="..." Width="28" Height="17" Click="ProjectDirFileSearchButton_Click"/>
+                                <Button x:Name="SetPath" Grid.Row="1" Content="Настроить путь" Margin="5" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="120" Click="SetPath_Click"/>
+                                <Button x:Name="CreateprojectFile" Grid.Row="1" Content="Создать файл .dwg" Margin="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="120" Click="CreateProjectFile_Click"/>
+
+                            </Grid>
+                            <TextBlock Text="Комментарий к проекту:" Margin="5"/>
+                            <TextBox Margin="5" Height="400" x:Name="ProjectComment" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" IsReadOnly="True"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="ChangeProjectButton" Content="Редактировать проект" Margin="5" Click="ChangeProjectButton_Click"/>
+                                <Button x:Name="RenameProjectButton" Grid.Column="1" Content="Переименовать проект" Margin="5" Click="RenameProjectButton_Click"/>
+                                <Button x:Name="DeleteProjectButton" Grid.Column="1" Grid.Row ="1" Content="Удалить" Margin="5" Click="DeleteProjectButton_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="InitDataTab" Header="Исходные данные">
+                    <Grid x:Name="InitDataTabGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Header="Описание проекта" Grid.Column="1" Grid.RowSpan="2" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBox Margin="5" x:Name="ProjectInitComment" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"  Grid.ColumnSpan="3"/>
+                                <Button x:Name="AddDescription" Margin="5" Grid.Column="1" Grid.Row="1" Content="Автоописание" Click="AddDescription_Click" />
+                                <Button x:Name="RemoveDescription" Margin="5" Grid.Row="1" Grid.Column="2" Content="Отчистить" Click="RemoveDescription_Click" />
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Параметры стенки корпуса">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.ColumnSpan="3" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Длина стенки:" Margin="5" VerticalAlignment="Center"/>
+                                    <DockPanel Grid.Row="1">
+                                        <TextBlock Text="мм" Margin="5" FontStyle="Italic" VerticalAlignment="Center" DockPanel.Dock="Right"/>
+                                        <TextBox x:Name="InitWallLengthTextBox" Margin="5,0" VerticalAlignment="Center" Height="17"/>
+                                    </DockPanel>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Выбор крепления:" Margin="5" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="FastenerSelection" Grid.Row="1" Grid.Column="1" Margin="2,0" SelectedItem="{Binding SelectedFastener, Mode=TwoWay }" SelectionChanged="FastenerType_SelectionChanged" Height="23">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0} - шляпка {1}мм, резьба {2}мм">
+                                                            <Binding Path="Name"/>
+                                                            <Binding Path="HeadDiameter"/>
+                                                            <Binding Path="ThreadDiameter"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
+
+                                <!--Это подписи строк ввода-->
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Длина радиатора" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Ширина" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Тепловыделение" Margin="5" VerticalAlignment="Center"/>
+                                <!--Это текстовые блоки ввода-->
+
+                                <TextBox Grid.Column="1" Grid.Row="1" x:Name="InitLengthTextBox" Margin="5" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1" Grid.Row="2" x:Name="InitWidthTextBox" Margin="5" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Grid.Row="3" x:Name="InitTDPTextBox" Margin="5" VerticalAlignment="Center"/>
+                                <!--Это эдиницы измерения-->
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="мм" Margin="5" FontStyle="Italic" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="мм" Margin="5" FontStyle="Italic" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="Вт" Margin="5" FontStyle="Italic" VerticalAlignment="Center"/>
+
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Выбор материала" Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <!--Наименования полей-->
+                                <TextBlock Grid.Row="0" Text="Название" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Text="Теплопроводность"  Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="2" Text="Эмиссивный коэффициент" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="3"  Text="Плотность" Margin="5" VerticalAlignment="Center"/>
+                                <!--Отображение информакции о материале-->
+                                <TextBox x:Name="MaterialNameTextBox" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="30, 5" IsReadOnly="True" />
+                                <TextBox x:Name="ThermalCondtextBox" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="30, 5" IsReadOnly="True"/>
+                                <TextBox x:Name="EmissiveRatioTextBox" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="30, 5" IsReadOnly="True"/>
+                                <TextBox x:Name="DensityTextBox" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="30, 5" IsReadOnly="True"/>
+                                <DockPanel Grid.Row="4" Grid.ColumnSpan ="2">
+                                    <Button DockPanel.Dock="Left"  x:Name="ChooseMaterialButton"  Content="Вырать" VerticalAlignment="Center" Width="200" Click="ChooseMaterialButton_Click"/>
+                                    <Button DockPanel.Dock="Right"  x:Name="ClearChoiceButton"  Content="Отчистить выбор" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Click="ClearChoiceButton_Click"/>
+                                </DockPanel>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Теплофизические параметры" Grid.Row="2" Grid.ColumnSpan="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!--Это подписи строк ввода-->
+                                <CheckBox x:Name="UserEmissivityCheckBox" Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center" Checked="UserEmissivityCheckBox_Checked" Unchecked="UserEmissivityCheckBox_Unchecked">
+                                    <TextBlock TextWrapping="Wrap">
+                                        Пользовательская эмиссивность
+                                    </TextBlock>
+                                </CheckBox>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Температура среды" Margin="5" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Предельная температура" Margin="5" VerticalAlignment="Center"/>
+                                <!--Это текстовые блоки ввода-->
+                                <TextBox x:Name="UserEmissivityRatioTextBox" Grid.Column="1" Grid.Row="0"  Margin="5" VerticalAlignment="Center" ToolTip="Данная настройка предполагает, что радиатора будет иметь красочное покрытие. Чем чернее поверхность тем ближе к единице коэффициент"/>
+                                <TextBox x:Name="EnvTempTextBox" Grid.Column="1" Grid.Row="1"  Margin="5" VerticalAlignment="Center"/>
+                                <TextBox x:Name="LimitTempTextBox" Grid.Column="1" Grid.Row="2"  Margin="5" VerticalAlignment="Center"/>
+                                <!--Это эдиницы измерения-->
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="" Margin="5" FontStyle="Italic" VerticalAlignment="Center">
+                                    <Run Text="°C" Typography.Variants="Superscript"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="Вт" Margin="5" FontStyle="Italic" VerticalAlignment="Center"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="DesignTab" Header="Проектирование">
+                    <Grid x:Name="MainDesignGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MaxWidth="300" MinWidth="200"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox x:Name="ParamOptimBorder" Grid.Column ="0" Grid.Row="0" Header="Настройки оптимизации">
+                            <Grid x:Name="TopLeftGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Grid x:Name="TopLeft1Grid" Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <CheckBox x:Name="OptimizeHeightCheckBox" Content="Оптимизировать высоту" Grid.ColumnSpan="3" Grid.Row="0" Margin="5" VerticalAlignment="Center" Checked="OptimizeHeightCheckBox_Checked" Unchecked="OptimizeHeightCheckBox_Unchecked"/>
+                                    <TextBlock x:Name="HeightFrom" Grid.Row="1" Text="Высота (h):" Margin="5" VerticalAlignment="Center" TextAlignment="Right"/>
+                                    <TextBox x:Name="OptimizeHeightTextBox" Grid.Row="1" Grid.Column="1"  Margin="5" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="мм" Margin="5" VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="HeightTo" Grid.Row="2" Margin="5" VerticalAlignment="Center" TextAlignment="Right" Text="до:" />
+                                    <!--Visibility="Hidden"-->
+                                    <TextBox x:Name="OptimizeHeightTextBoxUpTo" Grid.Row="2" Grid.Column="1"  Margin="5" VerticalAlignment="Center" />
+                                    <!--Visibility="Hidden"-->
+                                    <TextBlock x:Name="HeightUnits" Grid.Row="2" Grid.Column="2" Text="мм" Margin="5" VerticalAlignment="Center" />
+                                    <!--Visibility="Hidden"-->
+
+                                </Grid>
+                                <Grid x:Name="TopLeft2Grid" Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <CheckBox x:Name="OptimizeThicknessCheckBox" Content="Оптимизировать толщину" Grid.ColumnSpan="3" Grid.Row="0" Margin="5" VerticalAlignment="Center" Checked="OptimizeThicknessCheckBox_Checked" Unchecked ="OptimizeThicknessCheckBox_Unchecked" />
+                                    <TextBlock x:Name="ThicknessFrom" Grid.Row="1" Text="Толщина (δ)" Margin="5" VerticalAlignment="Center" TextAlignment="Right"/>
+                                    <TextBox x:Name="OptimizeThicknessTextBox" Grid.Row="1" Grid.Column="1"  Margin="5" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="мм" Margin="5" VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="ThicknessTo" Grid.Row="2" Text="до:" Margin="5" VerticalAlignment="Center" TextAlignment="Right"/>
+                                    <TextBox x:Name="OptimizeThicknessTextBoxUpTo" Grid.Row="2" Grid.Column="1"  Margin="5" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="ThicknessUnits" Grid.Row="2" Grid.Column="2" Text="мм" Margin="5" VerticalAlignment="Center"/>
+
+                                </Grid>
+                                <Grid x:Name="TopLeft3Grid" Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <CheckBox x:Name="OptimizeRibCountCheckBox" Content="Оптимизировать количество" Grid.ColumnSpan="3" Grid.Row="0" Margin="5" VerticalAlignment="Center" Checked="OptimizeRibCountCheckBox_Checked" Unchecked="OptimizeRibCountCheckBox_Unchecked"/>
+                                    <TextBlock x:Name="RibCountFrom" Grid.Row="1" Margin="5" VerticalAlignment="Center" TextAlignment="Right"><Run Text="Количество (z)"/><Run Language="ru-ru" Text=":"/></TextBlock>
+                                    <TextBox x:Name="OptimizeRibCountTextBox" Grid.Row="1" Grid.Column="1"  Margin="5" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="шт" Margin="5" VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="RibCountTo" Grid.Row="2" Text="до:" Margin="5" VerticalAlignment="Center" TextAlignment="Right"/>
+                                    <TextBox x:Name="OptimizeRibCountTextBoxUpTo" Grid.Row="2" Grid.Column="1"  Margin="5" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="RibCountUnits" Grid.Row="2" Grid.Column="2" Text="шт" Margin="5" VerticalAlignment="Center"/>
+
+                                </Grid>
+                                <StackPanel Grid.Row="3">
+                                    <TextBlock  Text="Толшина основания (c) мм:" Margin="5" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="BaseThicknesstextBox"  Margin="5" VerticalAlignment="Center"/>
+                                    <Button x:Name ="CalculateGeometry"  Content="Расчитать геометрию" Margin=" 5" Click="CalculateGeometry_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <oxy:PlotView Model="{Binding PlotModel}" Name="MyPlot" Margin="5" Grid.Column ="1" Grid.Row="0" SizeChanged="MyPlot_SizeChanged"/>
+                        <GroupBox Grid.Row="1" Header="Оптимальные параметры">
+                            <Grid x:Name="BottomGrid" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Высота ребра (h):" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="Толшина ребра (δ):" Grid.Column="0" VerticalAlignment="Center" Grid.Row="1" Margin="5"/>
+                                <TextBlock Text="Количество ребер (z):" Grid.Column="0" VerticalAlignment="Center" Grid.Row="2" Margin="5"/>
+                                <TextBlock Text="Результирующая температура:" Grid.Column="0" VerticalAlignment="Center" Grid.Row="3" Margin="5" Grid.ColumnSpan="2"/>
+
+                                <TextBox x:Name="HeightResult" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="5" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+                                <TextBox x:Name="ThicknessResult" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="5" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+                                <TextBox x:Name="CountResult" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="5" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+                                <TextBox x:Name="TemperatureResult" VerticalAlignment="Center" Grid.Row="4" Margin="5" Grid.ColumnSpan="2" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+                                <!--<CheckBox x:Name="ChangeRecievedParametersCheckBox"  Grid.Row="5" Content ="Править значения" VerticalAlignment="Center" Checked="ChangeReceivedParametersCheckBox_Checked" Unchecked="ChangeReceivedParametersCheckBox_Unchecked"/>-->
+
+                            </Grid>
+                        </GroupBox>
+                        <Grid Grid.Column="1" Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="Отрисовать эскиз" x:Name="DrawAndFitInViewButton"  Grid.Column="0" VerticalAlignment="Top" Margin="15,5,15,5" Click="DrawAndFitInViewButton_Click"/>
+                                <Button x:Name="Rendering2DButton" Grid.Column="1"  Content="Отрисовка в AutoCAD" Margin="15,5,15,5"  VerticalAlignment="Top" Click="Rendering2DButton_Click" IsEnabled="{Binding InputHelper.AllowRender}"/>
+                            </Grid>
+                            <Grid Margin="2" Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="5" Text="Текущее состояние проекта:" Grid.ColumnSpan="4" TextAlignment="Justify" VerticalAlignment="Bottom"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"  Text="Длинна Стенки:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"  Text="Длинна L:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="2"  Text="Ширина D:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="3"  Text="Толщина осн. С:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="4"  Text="Высота ребра H:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="5"  Text="Толщина ребра δ:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="6"  Text="Кол-во ребер z:" Background="LightGray" TextAlignment="Center"/>
+
+                                    <TextBox x:Name="WallLengthStatusTextBox"  Text ="{Binding ElementName = InitWallLengthTextBox, Path=Text}"  TextAlignment="Center" Grid.Row="1" IsReadOnly="True" Grid.Column="0"/>
+                                    <TextBox x:Name="LengthStatusTextBox"  Text ="{Binding ElementName = InitLengthTextBox, Path=Text}"  TextAlignment="Center" Grid.Row="1" IsReadOnly="True" Grid.Column="1"/>
+                                    <TextBox x:Name="WidthStatusTextBox"  Text ="{Binding ElementName = InitWidthTextBox, Path=Text}"  TextAlignment="Center" Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="BaseThicknessStatusTextBox"  Text ="{Binding ElementName = BaseThicknesstextBox, Path=Text}"  TextAlignment="Center" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="HeightStatusTextBox"  Text ="{Binding ElementName = HeightResult, Path=Text}"  TextAlignment="Center" Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="ThicknessStatusTextBox"  Text ="{Binding ElementName = ThicknessResult, Path=Text}"  TextAlignment="Center" Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="RibCountStatusTextBox"  Text ="{Binding ElementName = CountResult, Path=Text}"  TextAlignment="Center" Grid.Column="6" Grid.Row="1" IsReadOnly="True"/>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="ε" Background="LightGray" TextAlignment="Center" Grid.Column="2"/>
+                                    <TextBlock Grid.Column="0" Text="TDP:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="Теплопроводность λ:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="3" Text="t°C среды:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="4" Text="t°C полученная:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="5" Text="t°C предельная" Background="LightGray" TextAlignment="Center"/>
+
+                                    <TextBox x:Name="TDPStatusTextBox"  Text ="{Binding ElementName = InitTDPTextBox, Path=Text}"  TextAlignment="Center" Grid.Column="0" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="EmissivityStatusTextBox"  TextAlignment="Center" Grid.Row="1" IsReadOnly="True" Grid.Column="2"/>
+                                    <TextBox x:Name="ThermalConductStatusTextBox"  Text ="{Binding ElementName = ThermalCondtextBox, Path=Text}"  TextAlignment="Center" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="EnvironmentTempStatusTextBox"  Text ="{Binding ElementName = EnvTempTextBox, Path=Text}"  TextAlignment="Center" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="AchievedTempStatusTextBox"  Text ="{Binding ElementName = TemperatureResult, Path=Text}"  TextAlignment="Center" Grid.Column="4" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="LimitTempStatusTextBox"  Text ="{Binding ElementName = LimitTempTextBox, Path=Text}"  TextAlignment="Center" Grid.Column="5" Grid.Row="1" IsReadOnly="True"/>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Материал:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="Крепление:" Background="LightGray" TextAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="Вес кг:" Background="LightGray" TextAlignment="Center"/>
+
+                                    <TextBox x:Name="MaterialStatusTextBox" Text ="{Binding ElementName = MaterialNameTextBox, Path=Text}"  TextAlignment="Center" Grid.Column="0" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="FastenerTypeTextBox" TextAlignment="Center" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+                                    <TextBox x:Name="ResultingWeightStatusTextBox" TextAlignment="Center" Grid.Column="2" Grid.Row="1" IsReadOnly="True"/>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <!--<GroupBox Header="Варианты отрисовки">
+                                    <DockPanel>
+                                        <Button x:Name="Rendering2DButton" DockPanel.Dock="Left"  Content="Отрисовка в AutoCAD" Margin ="2" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Rendering2DButton_Click"/>
+                                        --><!--<Button x:Name="Rendering3DButton" DockPanel.Dock="Right" Content="Отрисовка 3D" Margin ="2" Width="150" HorizontalAlignment="Right" VerticalAlignment="Center" Click="Rendering3DButton_Click" />--><!--
+                                    </DockPanel>
+                                </GroupBox>-->
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>

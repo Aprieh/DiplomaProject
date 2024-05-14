@@ -1,0 +1,32 @@
+﻿<Window x:Class="DiplomaProject.CreateProject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DiplomaProject"
+        mc:Ignorable="d"
+        Title="CreateProject" Width="500" Height="180" ResizeMode="NoResize">
+    <StackPanel>
+
+        <TextBlock Text="Имя проекта:" Margin="5"/>
+        <TextBox x:Name="ProjectNameTextBox" Margin="5"/>
+
+        <TextBlock Text="Путь к проекту:" Margin="5"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="ProjectPathTextBox" IsReadOnly="True" Margin="5" VerticalAlignment="Center"/>
+            <Button x:Name="FileViewButton" Content="Обзор..." Grid.Column="1" Margin="5" Click="BrowseButton_Click" VerticalAlignment="Center" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="CreateButton" Content="Создать" VerticalAlignment="Center" Margin="20, 5" Click="CreateButton_Click"/>
+            <Button x:Name="CancelButton" Content="Отмена" Grid.Column="1" VerticalAlignment="Center" Margin="20, 5" Click="CancelButton_Click"/>
+        </Grid>
+    </StackPanel>
+</Window>
