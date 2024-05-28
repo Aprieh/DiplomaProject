@@ -58,6 +58,7 @@ namespace DiplomaProject
 
             Rendering2DButton.IsEnabled = false;
             RenderAutoCADMenuItem.IsEnabled = false;
+            DrawAndFitInViewButton.IsEnabled = false;
 
             SimpleFieldsDelegates();
             RangeFieldsDelegates();
@@ -501,6 +502,7 @@ namespace DiplomaProject
         {
             try
             {
+                FastenerSelection.SelectedItem = null;
                 if (SelectedProject == null)
                     throw new InvalidOperationException("Проект не выбран. Выберите один из представленных проектов или создайте новый");
 
@@ -830,6 +832,7 @@ namespace DiplomaProject
         {
             Rendering2DButton.IsEnabled = InputHelper.AllowRender;
             RenderAutoCADMenuItem.IsEnabled = InputHelper.AllowRender;
+            DrawAndFitInViewButton.IsEnabled= InputHelper.AllowRender;
 
             var backgroundColor = InputHelper.AllowRender ? new SolidColorBrush(Color.FromRgb(220, 255, 204)) : Brushes.White;
             WallLengthStatusTextBox.Background = backgroundColor;
