@@ -435,27 +435,7 @@ namespace DiplomaProject
             ProjectDirTextBox.Text = selectedProject.CADFilePath;
             ProjectComment.Text = selectedProject.Description;
         }
-        //private void Rendering3DButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var responce = MessageBox.Show("Эта функция будет удалена в последущих доработках. Хотите продолжить?", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-        //        if (responce == MessageBoxResult.Yes)
-        //        {
-        //            double l = InputHelper.GetDoubleValue(InitLengthTextBox);
-        //            double d = InputHelper.GetDoubleValue(InitWidthTextBox);
-        //            double c = InputHelper.GetDoubleValue(BaseThicknesstextBox);
-        //            double h = InputHelper.GetDoubleValue(HeightResult);
-        //            double delta = InputHelper.GetDoubleValue(ThicknessResult);
-        //            int z = InputHelper.GetIntValue(CountResult);
-        //            new AutoCadRenderer3D(l, d, c, h, delta, z);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
+        
         private void Rendering2DButton_Click(object sender, RoutedEventArgs e)
         {
             try
