@@ -157,11 +157,11 @@ namespace DiplomaProject
 
             ClearLayer();
 
-            acadDoc.SetVariable("PDMODE", 3);
+            acadDoc.SetVariable("PDMODE", 2);
             acadDoc.SetVariable("PDSIZE", 1);
             LoadDashedLinetype(acadDoc);
 
-            DrawRadiator(modelSpace, 60, 150);
+            DrawRadiator(modelSpace, 60, 90);
 
             DeletePhantomDocument();
 
@@ -221,65 +221,65 @@ namespace DiplomaProject
 
         private void DrawFront(AcadModelSpace modelSpace, double startX, double startY, double dist)
         {
-            double offset = H + 20;
+            double offset = D + 30;
             double radius = ThreadDiameter / 2;
             HeatsinkFrontPolyLine(modelSpace, startX, startY, dist, offset);
 
-            modelSpace.AddDimAligned(new double[] { -FasteningStrip + startX, -offset + startY, 0 }, new double[] { -FasteningStrip + startX, -offset + C + startY, 0 }, new double[] { -5 - FasteningStrip + startX, 0, 0 });
-            modelSpace.AddDimAligned(new double[] { startX, -offset + startY, 0 }, new double[] { startX, -offset + C + H + startY, 0 }, new double[] { -10 - FasteningStrip + startX, 0, 0 });
+            modelSpace.AddDimAligned(new double[] { -FasteningStrip + startX, offset + startY, 0 }, new double[] { -FasteningStrip + startX, offset + C + startY, 0 }, new double[] { -5 - FasteningStrip + startX, 0, 0 });
+            modelSpace.AddDimAligned(new double[] { startX, offset + startY, 0 }, new double[] { startX, offset + C + H + startY, 0 }, new double[] { -10 - FasteningStrip + startX, 0, 0 });
 
             AddCustomDashedLine(modelSpace,
                                                      -FasteningStrip / 2 - radius + startX,
-                                                     -offset + startY,
+                                                     offset + startY,
                                                      -FasteningStrip / 2 - radius + startX,
-                                                     -offset + C + startY,
+                                                     offset + C + startY,
                                                      "JIS_02_0.7");
 
             AddCustomDashedLine(modelSpace,
                                                      -FasteningStrip / 2 + radius + startX,
-                                                     -offset + startY,
+                                                     offset + startY,
                                                      -FasteningStrip / 2 + radius + startX,
-                                                     -offset + C + startY,
+                                                     offset + C + startY,
                                                      "JIS_02_0.7");
 
 
             AddCustomDashedLine(modelSpace,
                                                      FasteningStrip / 2 - radius + startX + L,
-                                                     -offset + startY,
+                                                     offset + startY,
                                                      FasteningStrip / 2 - radius + startX + L,
-                                                     -offset + C + startY,
+                                                     offset + C + startY,
                                                      "JIS_02_0.7");
 
             AddCustomDashedLine(modelSpace,
                                                      FasteningStrip / 2 + radius + startX + L,
-                                                     -offset + startY,
+                                                     offset + startY,
                                                      FasteningStrip / 2 + radius + startX + L,
-                                                     -offset + C + startY,
+                                                     offset + C + startY,
                                                      "JIS_02_0.7");
 
-            AddCustomDashedLine(modelSpace, -FasteningStrip / 2 + startX, -offset + startY - C * 2, -FasteningStrip / 2 + startX, -offset + C + startY + C * 2, "JIS_02_0.7");
-            AddCustomDashedLine(modelSpace, FasteningStrip / 2 + startX + L, -offset + startY - C * 2, FasteningStrip / 2 + startX + L, -offset + C + startY + C * 2, "JIS_02_0.7");
+            AddCustomDashedLine(modelSpace, -FasteningStrip / 2 + startX, offset + startY - 5, -FasteningStrip / 2 + startX, offset + C + startY + 5, "JIS_02_0.7");
+            AddCustomDashedLine(modelSpace, FasteningStrip / 2 + startX + L, offset + startY - 5, FasteningStrip / 2 + startX + L, offset + C + startY + 5, "JIS_02_0.7");
         }
 
         private void HeatsinkFrontPolyLine(AcadModelSpace modelSpace, double startX, double startY, double dist, double offset)
         {
             List<double> vertices =
                         [
-                            .. new double[] { startX - FasteningStrip, -offset + startY },
-                .. new double[] { startX - FasteningStrip, -offset + startY + C },
-                .. new double[] { startX, -offset + startY + C },
+                            .. new double[] { startX - FasteningStrip, offset + startY },
+                .. new double[] { startX - FasteningStrip, offset + startY + C },
+                .. new double[] { startX, offset + startY + C },
             ];
             for (int i = 0; i <= Z; i++)
             {
                 double xPosition = startX + i * dist;
-                vertices.AddRange([xPosition, -offset + C + startY]);
-                vertices.AddRange([xPosition, -offset + C + H + startY]);
-                vertices.AddRange([xPosition + Delta, -offset + C + H + startY]);
-                vertices.AddRange([xPosition + Delta, -offset + C + startY]);
+                vertices.AddRange([xPosition, offset + C + startY]);
+                vertices.AddRange([xPosition, offset + C + H + startY]);
+                vertices.AddRange([xPosition + Delta, offset + C + H + startY]);
+                vertices.AddRange([xPosition + Delta, offset + C + startY]);
             }
-            vertices.AddRange(new double[] { startX + L, -offset + startY + C });
-            vertices.AddRange(new double[] { startX + L + FasteningStrip, -offset + startY + C });
-            vertices.AddRange(new double[] { startX + L + FasteningStrip, -offset + startY });
+            vertices.AddRange(new double[] { startX + L, offset + startY + C });
+            vertices.AddRange(new double[] { startX + L + FasteningStrip, offset + startY + C });
+            vertices.AddRange(new double[] { startX + L + FasteningStrip, offset + startY });
 
 
             // Преобразование в массив
@@ -313,11 +313,11 @@ namespace DiplomaProject
             modelSpace.AddDimAligned(//размер слева ширина радиатора
                new double[] { -FasteningStrip + startX, startY, 0 },
                new double[] { -FasteningStrip + startX, startY + D, 0 },
-               new double[] { -20 + startX, startY, 0 });
+               new double[] { -10 - FasteningStrip + startX, startY, 0 });
             modelSpace.AddDimAligned(//размер слева отношение отверстия
                new double[] { -FasteningStrip / 2 + startX, startY, 0 },
                new double[] { -FasteningStrip / 2 + startX, startY + D / 2, 0 },
-               new double[] { -15 + startX, startY, 0 });
+               new double[] { -5 - FasteningStrip + startX, startY, 0 });
             modelSpace.AddDimAligned(//размер снизу отношение оверстия
                 new double[] { -FasteningStrip + startX, startY + D / 2, 0 },
                 new double[] { -FasteningStrip / 2 + startX, startY + D / 2, 0 },

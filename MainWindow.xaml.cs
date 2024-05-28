@@ -30,6 +30,9 @@ namespace DiplomaProject
         }
         private void InitialState()
         {
+            InitDataTab.Visibility = Visibility.Hidden;
+            DesignTab.Visibility = Visibility.Hidden;
+
             HeightTo.Visibility = Visibility.Hidden;
             HeightUnits.Visibility = Visibility.Hidden;
             OptimizeHeightTextBoxUpTo.Visibility = Visibility.Hidden;
@@ -546,6 +549,8 @@ namespace DiplomaProject
 
                 MessageBox.Show($"Проект \"{SelectedProject.ProjectName}\" успешно загружен.", "Инофрмация", MessageBoxButton.OK, MessageBoxImage.Information);
                 StatusBarText.Content = $"Проект \"{SelectedProject.ProjectName}\" успешно загружен.";
+                InitDataTab.Visibility = Visibility.Visible;
+                DesignTab.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -781,12 +786,12 @@ namespace DiplomaProject
             if (SelectedProject != null)
             {
                 var selectedProject = databaseContext.Projects.FirstOrDefault(p => p.ProjectID == SelectedProject.ProjectID);
-                if (System.IO.File.Exists(SelectedProject.CADFilePath))
+                if (File.Exists(SelectedProject.CADFilePath))
                 {
                     var responce = MessageBox.Show("У данного проекта уже есть ассоциированный файл. Выхотите его удалить?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (responce == MessageBoxResult.Yes)
                     {
-                        System.IO.File.Delete(selectedProject.CADFilePath);
+                        File.Delete(selectedProject.CADFilePath);
                         selectedProject.CADFilePath = null;
                         SelectedProject = selectedProject;
                         databaseContext.SaveChanges();
