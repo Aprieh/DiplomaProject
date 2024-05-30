@@ -21,10 +21,8 @@ namespace DiplomaProject
         public double? TemperatureEnvironment { get; set; }
         public double? TemperatureLimit { get; set; }
         public double? TemperatureAchieved { get; set; }
-
-        // Navigation properties
         public Material Material { get; set; }
-        public ICollection<Project> Projects { get; set; } // Assuming a Heatsink can be part of multiple Projects
+        public ICollection<Project> Projects { get; set; }
         public Heatsink()
         {
             MaterialID = null;
@@ -49,14 +47,12 @@ namespace DiplomaProject
         public double ThermalConductivity { get; set; }
         public double Density { get; set; }
         public double Emissivity { get; set; }
-
-        // Navigation property
         public ICollection<Heatsink> Heatsinks { get; set; }
     }
     public class Project
     {
         public int ProjectID { get; set; }
-        public int? HeatsinkID { get; set; } // Direct reference to Heatsink
+        public int? HeatsinkID { get; set; } 
         public string ProjectName { get; set; }
         public string Description { get; set; }
         public DateTime CreationDate { get; set; }

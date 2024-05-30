@@ -32,15 +32,9 @@ namespace DiplomaProject
         public string FilePath { get; set; }
         public double ThreadDiameter { get; set; }
         public double FasteningStrip { get; set; }
-
-
         private AcadApplication acadApp;
         private AcadDocument acadDoc;
-
         private readonly string layerName = "RadiatorLayer";
-
-        //private static List<AcadEntity> radiatorEntities = new();
-
         private AcadDocument FindOpenDocument(AcadApplication app, string filePath)
         {
             string targetFileName = Path.GetFileName(filePath);  // Получаем имя файла из полного пути

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiplomaProject"
         mc:Ignorable="d"
-        Title="CreateProject" Width="500" Height="180" ResizeMode="NoResize">
+        Title="Создание проекта" Width="500" Height="180" ResizeMode="NoResize">
     <StackPanel>
 
         <TextBlock Text="Имя проекта:" Margin="5"/>

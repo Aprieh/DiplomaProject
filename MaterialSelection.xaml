@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiplomaProject"
         mc:Ignorable="d"
-        Title="MaterialSelection" Height="450" Width="700" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+        Title="База материалов" Height="450" Width="700" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -29,7 +29,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock TextWrapping="Wrap" Text="Свойства выбранногго материала" TextAlignment="Center" FontSize="14" Margin ="10"/>
+                <TextBlock TextWrapping="Wrap" Text="Свойства выбранного материала" TextAlignment="Center" FontSize="14" Margin ="10"/>
                 <Grid Grid.Row="1" Height="Auto">
                     <Grid.RowDefinitions>
                         <RowDefinition/>

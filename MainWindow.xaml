@@ -6,7 +6,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:DiplomaProject"
         mc:Ignorable="d"
-        Title="FERN" Height="800" Width="1036" MinHeight="700" MinWidth="800">
+        Title="САПР-Радиатор" Height="800" Width="1036" MinHeight="700" MinWidth="800">
 
     <DockPanel x:Name="MainDockPanel">
         <Menu x:Name="Menu" DockPanel.Dock="Top">
