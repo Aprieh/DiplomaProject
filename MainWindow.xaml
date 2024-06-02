@@ -291,7 +291,7 @@
                         </GroupBox>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="DesignTab" Header="Проектирование">
+                <TabItem x:Name="DesignTab" Header="Оптимизация и расчет">
                     <Grid x:Name="MainDesignGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" MaxWidth="300" MinWidth="200"/>
