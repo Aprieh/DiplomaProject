@@ -10,20 +10,174 @@
     <Grid>
         <RichTextBox IsReadOnly="True" Background="White" BorderThickness="0">
             <FlowDocument>
-                <Paragraph FontWeight="Bold">Как использовать программу:</Paragraph>
+                <Paragraph FontWeight="Bold">Главное окно Подсистемы:</Paragraph>
+                <Paragraph>При запуске программы пользователю представляется главное окно с вкладкой «Проекты». В этой вкладке пользователь может:</Paragraph>
                 <List MarkerStyle="Decimal">
                     <ListItem>
-                        <Paragraph>Выберите проект из списка.</Paragraph>
+                        <Paragraph>Выбрать проект из списка – для этого необходимо кликнуть на один из представленных проектов в левой части окна.</Paragraph>
                     </ListItem>
                     <ListItem>
-                        <Paragraph>Введите исходные данные в соответствующих полях.</Paragraph>
+                        <Paragraph>Редактировать выбранный проект – для этого нужно нажать кнопку «Редактировать проект». Проект будет загружен в Подсистему, и откроются вкладки «Исходные данные» и «Оптимизация и расчет».</Paragraph>
                     </ListItem>
                     <ListItem>
-                        <Paragraph>Нажмите кнопку "Расчитать" для получения результатов.</Paragraph>
+                        <Paragraph>Переименовать проект – нажмите кнопку «Переименовать проект» и введите новое название.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Удалить проект – нажмите кнопку «Удалить проект» для удаления выбранного проекта.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Создать файл AutoCAD (.dwg) – нажмите кнопку «Создать файл .dwg» для создания чертежа в AutoCAD.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Открыть файл по указанному пути – В правой части вкладки отображается путь до файла с чертежами AutoCAD. Вы можете открыть файл, кликнув на соответствующую опцию.</Paragraph>
                     </ListItem>
                 </List>
-                <Paragraph FontStyle="Italic">Для дополнительной помощи обратитесь к разработчику.</Paragraph>
+                <Paragraph>В правой части вкладки отображается вся необходимая информация о проекте, включая его название, дату создания и изменения, путь до файла с чертежами AutoCAD и комментарий, который был оставлен пользователем ранее.</Paragraph>
+
+                <Paragraph FontWeight="Bold">Основные меню Подсистемы:</Paragraph>
+                <Paragraph>Файл:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Создать – открывает окно для создания нового проекта.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Открыть – открывает окно для выбора существующего проекта.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Сохранить – сохраняет текущий проект.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Выход: закрывает Подсистему.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>Вид:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Во весь экран – переключает Подсистему в полноэкранный режим.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Восстановить размер – возвращает окно программы к исходным размерам.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Свернуть – сворачивает окно программы.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>AutoCAD:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Запуск AutoCAD – открывает AutoCAD.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Отрисовать Чертеж – создает чертеж текущего проекта в AutoCAD.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>Справка:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Помощь – открывает окно справочной информации.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>О программе – открывает окно с информацией о программе.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Обратная связь – открывает окно для отправки обратной связи.</Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontWeight="Bold">Ввод исходных данных:</Paragraph>
+                <Paragraph>После выбора проекта и нажатия кнопки «Редактировать проект» откроется вкладка «Исходные данные». В этой вкладке пользователь может:</Paragraph>
+                <List MarkerStyle="Decimal">
+                    <ListItem>
+                        <Paragraph>Заполнить параметры стенки корпуса – введите длину стенки, длину и ширину радиатора, тепловыделение и выбор крепления.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Выбрать материал – в окне выбора материала выберите или добавьте нужный материал для радиатора.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Указать теплофизические параметры – введите эмиссивность, температуру окружающей среды и предельную допустимую температуру работы радиатора.</Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontWeight="Bold">Оптимизация и расчет:</Paragraph>
+                <Paragraph>После ввода исходных данных перейдите во вкладку «Оптимизация и расчет». В этой вкладке:</Paragraph>
+                <List MarkerStyle="Decimal">
+                    <ListItem>
+                        <Paragraph>Настройте параметры оптимизации – введите допустимые диапазоны для высоты ребер, толщины ребер, количества ребер и толщины основания.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Выполните расчет геометрии – нажмите кнопку «Расчитать геометрию» для выполнения расчетов.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Просмотрите оптимальные параметры – после успешного расчета значения оптимальных параметров и результирующая температура будут отображены в разделе «Оптимальные параметры».</Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontWeight="Bold">Отрисовка и сохранение:</Paragraph>
+                <Paragraph>После выполнения расчета пользователю доступны следующие действия:</Paragraph>
+                <List MarkerStyle="Decimal">
+                    <ListItem>
+                        <Paragraph>Отрисовать эскиз – нажмите кнопку «Отрисовать эскиз» для создания промежуточного эскиза.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Отрисовать чертеж в AutoCAD – нажмите кнопку «Отрисовка в AutoCAD» для создания чертежа в AutoCAD. После получения чертежа можно внести правки, заполнить чертежную рамку и сохранить файл.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>Сохранение проекта:</Paragraph>
+                <Paragraph>После завершения работы с проектом сохраните его, нажав кнопку «Сохранить». Подсистема оповестит пользователя об успешном сохранении проекта.</Paragraph>
+                <Paragraph>Примечания:</Paragraph>
+                <Paragraph>Поля с некорректными значениями подсвечиваются разными цветами для удобства исправления.</Paragraph>
+
+                <Paragraph FontWeight="Bold">Работа с материалами в программе:</Paragraph>
+                <Paragraph>Главное окно для работы с материалами содержит два основных раздела: список материалов и свойства выбранного материала.</Paragraph>
+                <Paragraph>Список материалов:</Paragraph>
+                <Paragraph>В левой части окна отображается список материалов. Каждый материал представлен с указанием его названия и теплопроводности. Выберите материал из списка, чтобы увидеть его свойства в правой части окна.</Paragraph>
+                <Paragraph>Свойства выбранного материала:</Paragraph>
+                <Paragraph>В правой части окна отображаются свойства выбранного материала:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Название</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Теплопроводность (Вт/м·К)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Плотность (кг/м³)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Эмиссивность</Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph>Действия с материалами:</Paragraph>
+                <Paragraph>Внизу окна расположены кнопки для управления материалами:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Добавить – нажмите кнопку «Добавить» для добавления нового материала.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Удалить – нажмите кнопку «Удалить» для удаления выбранного материала. Кнопка становится активной только при выборе материала из списка.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Изменить – нажмите кнопку «Изменить» для редактирования свойств выбранного материала. Кнопка становится активной только при выборе материала из списка.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Подтвердить изменение – после внесения изменений нажмите кнопку «Подтвердить изменение» для сохранения изменений.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Сбросить – нажмите кнопку «Сбросить» для отмены внесенных изменений.</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>Применение и отмена изменений:</Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Применить – нажмите кнопку «Применить» для применения выбранного материала.</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Отмена – нажмите кнопку «Отмена» для закрытия окна без сохранения изменений.</Paragraph>
+                    </ListItem>
+                </List>
             </FlowDocument>
         </RichTextBox>
+
     </Grid>
 </Window>

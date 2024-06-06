@@ -11,7 +11,7 @@
         <RichTextBox IsReadOnly="True" Background="White" BorderThickness="0">
             <FlowDocument>
                 <Paragraph FontWeight="Bold" FontSize="14">О программе FERN</Paragraph>
-                <Paragraph>Это приложение предназначено для проектирования и оптимизации тепловых радиаторов. Вы можете создавать, сохранять и редактировать проекты, а также рассчитывать оптимальные параметры тепловых радиаторов.</Paragraph>
+                <Paragraph>Это приложение предназначено для проектирования и оптимизации радиаторов ребристых корпусов. Вы можете создавать, сохранять и редактировать проекты, а также рассчитывать оптимальные параметры тепловых радиаторов.</Paragraph>
                 <Paragraph FontWeight="Bold">Версия:</Paragraph>
                 <Paragraph>1.0.0</Paragraph>
                 <Paragraph FontWeight="Bold">Разработано:</Paragraph>
